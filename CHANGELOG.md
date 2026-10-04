@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Added `rd_guard.v11.store.SQLiteStateStore` and an optional `store=` argument on
+  `SafetyStateMachine` so state and single-use approvals survive restarts and are
+  shared atomically across processes.
+
 ## 11.2.3 — October 3, 2026
 
 - Added shared Unicode-aware action normalization and default-deny allowlists;
