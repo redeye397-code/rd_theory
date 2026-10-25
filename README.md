@@ -279,7 +279,7 @@ hardening the action, recovery, checkpoint, and HTTP decision paths:
   source control. Hash-only checkpoints from older versions are rejected.
 - `/check` supports `RD_API_KEY`, per-client rate limiting, an 8 KiB body cap,
   sanitized request-ID-correlated logging, and request-ID response headers.
-- The CI workflow adds lint, type, dependency/security scans, a Python 3.10–3.12
+- The CI workflow adds lint, type, dependency/security scans, a Python 3.11–3.12
   test matrix, and Docker/Compose startup verification.
 - Set `RD_GUARD_METRICS_HOST=0.0.0.0` in container deployments to expose metrics
   to the Compose network; outside containers the default is `127.0.0.1`.
