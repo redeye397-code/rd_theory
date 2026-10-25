@@ -1,6 +1,6 @@
 # Docker quickstart
 
-Docker Compose starts the RD Guard V11.2.3 API, Prometheus, and Grafana. From the
+Docker Compose starts the RD Guard V11.4.0 API, Prometheus, and Grafana. From the
 repository root:
 
 ```sh
@@ -15,7 +15,7 @@ docker-compose ps
 curl http://localhost:8000/
 ```
 
-The API should return `"status": "V11.2.3 LIVE"`. Prometheus is available at
+The API should return `"status": "V11.4.0 LIVE"`. Prometheus is available at
 <http://localhost:9090>; Grafana is at <http://localhost:3000> and uses the
 development-only default credentials `admin` / `admin`. The provisioned RD Guard
 dashboard is available in Grafana's dashboards list.

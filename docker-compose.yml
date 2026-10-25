@@ -15,7 +15,7 @@ services:
         - CMD
         - python
         - -c
-        - "import json,urllib.request; response=urllib.request.urlopen('http://127.0.0.1:8000/'); assert json.load(response)['status']=='V11.2.3 LIVE'"
+        - "import json,urllib.request; response=urllib.request.urlopen('http://127.0.0.1:8000/'); assert json.load(response)['status']=='V11.4.0 LIVE'"
       interval: 30s
       timeout: 5s
       start_period: 10s

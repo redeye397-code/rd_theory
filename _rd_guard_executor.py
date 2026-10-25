@@ -1,4 +1,4 @@
-"""GuardedExecutor: the V11.2.3 enforcement boundary for agent actions.
+"""GuardedExecutor: the V11.4.0 enforcement boundary for agent actions.
 
 Every action MUST be validated against the canonical schema
 (``CanonicalAction``) and observed by ``RDGuard`` through ``execute()``
