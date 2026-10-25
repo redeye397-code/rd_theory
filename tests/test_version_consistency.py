@@ -8,12 +8,12 @@ ROOT = Path(__file__).resolve().parent.parent
 
 
 def test_version_is_consistent():
-    assert v11.__version__ == "11.2.3"
-    assert 'version = "11.2.3"' in (ROOT / "pyproject.toml").read_text()
+    assert v11.__version__ == "11.4.0"
+    assert 'version = "11.4.0"' in (ROOT / "pyproject.toml").read_text()
     for name in ("realworld.py", "Dockerfile", "docker-compose.yml"):
         text = (ROOT / name).read_text()
         assert "11.2.2" not in text, name
-    assert "V11.2.3 LIVE" in (ROOT / "realworld.py").read_text()
+    assert "V11.4.0 LIVE" in (ROOT / "realworld.py").read_text()
 
 
 def test_high_risk_keywords_is_deprecated_alias_of_policy():

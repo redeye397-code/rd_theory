@@ -12,7 +12,7 @@ def test_startup_root_and_check_actions(monkeypatch):
     with TestClient(realworld.app) as client:
         root = client.get("/")
         assert root.status_code == 200
-        assert root.json()["status"] == "V11.2.3 LIVE"
+        assert root.json()["status"] == "V11.4.0 LIVE"
 
         allowed = client.post("/check", json={"data": {"action": "read_file"}})
         assert allowed.status_code == 200
