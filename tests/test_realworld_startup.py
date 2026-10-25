@@ -1,4 +1,4 @@
-"""Tests for the V11.2.3 real-world startup path (``realworld.py``).
+"""Tests for the V11.4.0 real-world startup path (``realworld.py``).
 
 These guard against the package-layout regression where ``rd_guard`` was a
 flat module and the V11 submodules it documents/imports --
@@ -61,7 +61,7 @@ def test_realworld_entrypoint_imports_and_serves_requests(monkeypatch):
 
     root = client.get("/")
     assert root.status_code == 200
-    assert root.json()["status"] == "V11.2.3 LIVE"
+    assert root.json()["status"] == "V11.4.0 LIVE"
 
     allowed = client.post("/check", json={"data": {"action": "read_file"}})
     assert allowed.status_code == 200
