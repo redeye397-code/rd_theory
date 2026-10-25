@@ -1,5 +1,6 @@
 pytest
 streamlit
+Pillow>=13.0.0
 fastapi
 uvicorn
 pydantic

@@ -1,4 +1,5 @@
 -r requirements.txt
+filelock>=4.2.1
 ruff==0.16.10
 mypy==2.4.0
 bandit==1.9.4
