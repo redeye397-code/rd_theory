@@ -43,3 +43,10 @@ def test_ci_python_matrix_respects_project_minimum():
         tuple(map(int, version.split("."))) >= minimum_version
         for version in python_versions
     )
+
+
+def test_ci_dependency_audit_uses_fixed_dependency_minimums():
+    requirements = (PROJECT.parent / "requirements.txt").read_text().splitlines()
+
+    assert "Pillow>=13.0.0" in requirements
+    assert "filelock>=4.2.1" in requirements
