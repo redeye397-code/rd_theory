@@ -312,7 +312,18 @@ class SafetyStateMachine:
         last_event_time=0.0,
         metrics=None,
         max_recovery_attempts=None,
+        store=None,
     ):
+        self.store = store
+        if store is not None:
+            saved = store.load_state()
+            if saved is not None:
+                state = saved.get("state", state)
+                recovery_attempts = saved.get("recovery_attempts", recovery_attempts)
+                last_event_time = saved.get("last_event_time", last_event_time)
+                if max_recovery_attempts is None:
+                    max_recovery_attempts = saved.get("max_recovery_attempts")
+            consumed_approvals = set(consumed_approvals or ()) | store.consumed_approvals()
         self.audit_log = audit_log if audit_log is not None else []
         self.state = state
         self.recovery_attempts = recovery_attempts
@@ -323,6 +334,11 @@ class SafetyStateMachine:
         self.history = []
         self.metrics = metrics if metrics is not None else DEFAULT_METRICS
         self.metrics.set_state(self.state)
+        self._persist()
+
+    def _persist(self):
+        if self.store is not None:
+            self.store.save_state(self.to_dict())
 
     def _audit(self, event, **fields):
         record = {"event": event, "state": self.state, **fields}
@@ -344,6 +360,7 @@ class SafetyStateMachine:
         self.state = new_state
         self.metrics.record_transition(from_state, new_state, event)
         self._audit(event, new_state=new_state, **fields)
+        self._persist()
         return self.state
 
     def stabilize(self, reason=""):
@@ -382,6 +399,7 @@ class SafetyStateMachine:
             self._audit("CLOCK_ROLLBACK_DETECTED", observed=now, last=self.last_event_time)
             raise RecoveryError("CLOCK_ROLLBACK_DETECTED")
         self.last_event_time = now
+        self._persist()
 
     def request_recovery(self, checkpoint, approval_token, now=None):
         """Attempt a FAULT -> NORMAL recovery using ``checkpoint``.
@@ -411,6 +429,7 @@ class SafetyStateMachine:
 
     def _request_recovery(self, checkpoint, approval_token):
         self.recovery_attempts += 1
+        self._persist()
         if self.recovery_attempts > self.max_recovery_attempts:
             self._transition("TAMPER_CONFIRMED", reason="recovery attempts exceeded")
             raise RecoveryError("RECOVERY_ATTEMPTS_EXCEEDED")
@@ -422,10 +441,14 @@ class SafetyStateMachine:
             raise RecoveryError(str(exc)) from exc
 
         token_id = claims["jti"]
-        if token_id in self.consumed_approvals:
+        if token_id in self.consumed_approvals or (
+            self.store is not None and not self.store.consume_approval(token_id)
+        ):
+            self.consumed_approvals.add(token_id)
             self._audit("REPLAYED_APPROVAL_REJECTED", token_id=token_id)
             raise RecoveryError("REPLAYED_APPROVAL_REJECTED")
         self.consumed_approvals.add(token_id)
+        self._persist()
 
         try:
             status = verify_checkpoint(checkpoint, metrics=self.metrics)
@@ -448,6 +471,7 @@ class SafetyStateMachine:
             token_id=token_id,
         )
         self.recovery_attempts = 0
+        self._persist()
         return checkpoint["data"]
 
     def to_dict(self):
