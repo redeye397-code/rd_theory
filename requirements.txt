@@ -1,7 +1,10 @@
 pytest
 streamlit
+Pillow>=13.0.0
 fastapi
 uvicorn
 pydantic
 httpx
 prometheus_client
+Pillow>=13.0.0
+filelock>=4.2.1

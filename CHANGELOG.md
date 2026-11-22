@@ -6,6 +6,11 @@
   `SafetyStateMachine` so state and single-use approvals survive restarts and are
   shared atomically across processes.
 
+## 11.4.0 — October 25, 2026
+
+- Promoted V11.4.0 as the supported live release; the stable V11 API and
+  fail-closed enforcement behavior are unchanged.
+
 ## 11.2.3 — October 3, 2026
 
 - Added shared Unicode-aware action normalization and default-deny allowlists;

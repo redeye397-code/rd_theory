@@ -1,4 +1,4 @@
-"""V11.2.3 FastAPI entrypoint for the real-world startup example."""
+"""V11.4.0 FastAPI entrypoint for the real-world startup example."""
 
 import hmac
 import json
@@ -26,12 +26,12 @@ try:
 except ImportError as exc:
     missing = getattr(exc, "name", None) or ""
     raise ImportError(
-        f"realworld.py (V11.2.3) could not import '{missing or 'rd_guard'}' "
+        f"realworld.py (V11.4.0) could not import '{missing or 'rd_guard'}' "
         f"({exc}). Install dependencies with "
         "`python -m pip install -r requirements.txt`, then run "
         "`python -m pip install -e .` from the repository root. Confirm these "
         "files exist: rd_guard/__init__.py, rd_guard/v11/config.py, "
-        "rd_guard/v11/telemetry/logging.py. See README.md 'Run the V11.2.3 "
+        "rd_guard/v11/telemetry/logging.py. See README.md 'Run the V11.4.0 "
         "real-world app' for the expected layout and startup command."
     ) from exc
 
@@ -226,7 +226,7 @@ async def _lifespan(_app):
     yield
 
 
-app = FastAPI(title="RD Guard V11.2.3 — Real World", lifespan=_lifespan)
+app = FastAPI(title="RD Guard V11.4.0 — Real World", lifespan=_lifespan)
 app.add_middleware(RequestBodyLimitMiddleware)
 app.state.metrics_server = None
 app.state.metrics_display_host = None
@@ -383,7 +383,7 @@ async def check(request: Request):
 
 @app.get("/")
 def root():
-    return {"status": "V11.2.3 LIVE", "metrics": _metrics_url()}
+    return {"status": "V11.4.0 LIVE", "metrics": _metrics_url()}
 
 
 # Run: uvicorn realworld:app --reload

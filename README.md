@@ -1,8 +1,8 @@
-# RD Theory V11.2.3
+# RD Theory V11.4.0
 
-![Version](https://img.shields.io/badge/version-11.2.3-blue)
+![Version](https://img.shields.io/badge/version-11.4.0-blue)
 
-**Support policy:** V11.2.3 is the supported version. V1–V9 are archived
+**Support policy:** V11.4.0 is the supported version. V1–V9 are archived
 and available for reference only; their legacy import paths remain available
 with `DeprecationWarning` notices.
 
@@ -192,9 +192,9 @@ This estimates p95 `GuardedExecutor.execute()` latency over a rolling five
 minutes. Compare it with the validation and observation histograms to localize
 cost before making performance changes.
 
-## Run the V11.2.3 real-world app
+## Run the V11.4.0 real-world app
 
-`realworld.py` at the repository root is the V11.2.3 FastAPI entrypoint. It
+`realworld.py` at the repository root is the V11.4.0 FastAPI entrypoint. It
 imports from the `rd_guard` package layout below -- all of these files must be
 present (they are installed by `python -m pip install -e .`):
 
@@ -243,7 +243,7 @@ $port = if ($env:PORT) { $env:PORT } else { 8000 }
 uvicorn realworld:app --host 0.0.0.0 --port $port
 ```
 
-`GET /` reports `{"status": "V11.2.3 LIVE", ...}` once the server is running,
+`GET /` reports `{"status": "V11.4.0 LIVE", ...}` once the server is running,
 and `POST /check` with `{"data": {...}}` returns the guard's decision
 (`state`, `blocked`, `latency_ms`, `request_id`). Unknown or ambiguous action
 types are blocked. `/check` accepts an optional `X-API-Key` configured with
@@ -263,9 +263,9 @@ production deployment ready. The metrics exporter is a separate listener:
 allow access only from trusted monitoring systems and keep it off public
 ingress.
 
-## V11.2.3 security hardening
+## V11 security hardening
 
-V11.2.3 preserves the stable V11 API and fail-closed enforcement model while
+V11.4.0 preserves the stable V11 API and fail-closed enforcement model while
 hardening the action, recovery, checkpoint, and HTTP decision paths:
 
 - Action types are normalized consistently and checked against explicit
@@ -279,7 +279,7 @@ hardening the action, recovery, checkpoint, and HTTP decision paths:
   source control. Hash-only checkpoints from older versions are rejected.
 - `/check` supports `RD_API_KEY`, per-client rate limiting, an 8 KiB body cap,
   sanitized request-ID-correlated logging, and request-ID response headers.
-- The CI workflow adds lint, type, dependency/security scans, a Python 3.10–3.12
+- The CI workflow adds lint, type, dependency/security scans, a Python 3.11–3.12
   test matrix, and Docker/Compose startup verification.
 - Set `RD_GUARD_METRICS_HOST=0.0.0.0` in container deployments to expose metrics
   to the Compose network; outside containers the default is `127.0.0.1`.
